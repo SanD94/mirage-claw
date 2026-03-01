@@ -6,20 +6,53 @@ mkdir -p /root/.nullclaw
 if [ ! -f /root/.nullclaw/config.json ]; then
   cat > /root/.nullclaw/config.json << 'EOF'
 {
-  "provider": "openrouter",
-  "model": "google/gemma-3-4b-it",
-
-  "session": {
-    "strategy": "daily",
-    "id_format": "uuidv6",
-    "title": {
-      "auto_generate": true,
-      "prompt": "In 5 words or fewer, summarize what this conversation was about. Use plain language, no punctuation.",
-      "trigger": "on_session_end"
+  "models": {
+    "providers": {
+      "openrouter": { "api_key": "${NULLCLAW_API_KEY}" }
     }
   },
 
-  "tools": { "shell": true },
+  "agents": {
+    "defaults": {
+      "model": { "primary": "openrouter/google/gemma-3-4b-it" },
+      "heartbeat": { "every": "30m" }
+    }
+  },
+
+  "channels": {
+    "telegram": {
+      "accounts": {
+        "main": {
+          "bot_token": "${NULLCLAW_TELEGRAM_TOKEN}",
+          "allow_from": ["${NULLCLAW_TELEGRAM_ALLOWLIST}"],
+          "reply_in_private": true
+        }
+      }
+    }
+  },
+
+  "memory": {
+    "backend": "sqlite",
+    "auto_save": true
+  },
+
+  "gateway": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "require_pairing": false,
+    "allow_public_bind": true
+  },
+
+  "autonomy": {
+    "level": "supervised",
+    "workspace_only": true,
+    "max_actions_per_hour": 20
+  },
+
+  "security": {
+    "sandbox": { "backend": "auto" },
+    "audit": { "enabled": true }
+  },
 
   "hooks": {
     "before_llm": [
