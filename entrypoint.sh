@@ -37,7 +37,7 @@ if [ ! -f /root/.nullclaw/config.json ]; then
   },
 
   "gateway": {
-    "port": 8080,
+    "port": 3000,
     "host": "0.0.0.0",
     "require_pairing": false,
     "allow_public_bind": true
@@ -88,4 +88,4 @@ api_url: "${FIZZY_API_URL:-https://app.fizzy.do}"
 EOF
 
 # Start NullClaw
-exec nullclaw gateway --host 0.0.0.0 --port 8080
+exec nullclaw gateway --host 0.0.0.0 --port 3000
