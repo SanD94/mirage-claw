@@ -88,4 +88,4 @@ api_url: "${FIZZY_API_URL:-https://app.fizzy.do}"
 EOF
 
 # Start NullClaw
-exec nullclaw gateway --port 8080
+exec nullclaw gateway --host 0.0.0.0 --port 8080
