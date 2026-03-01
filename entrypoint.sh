@@ -22,8 +22,12 @@ if [ ! -f /root/.nullclaw/config.json ]; then
   "channels": {
     "telegram": {
       "enabled": true,
-      "bot_token": "${NULLCLAW_TELEGRAM_TOKEN}",
-      "allow_from": ["${NULLCLAW_TELEGRAM_ALLOWLIST}"],
+      "accounts": {
+        "main": {
+          "bot_token": "${NULLCLAW_TELEGRAM_TOKEN}",
+          "allow_from": ["${NULLCLAW_TELEGRAM_ALLOWLIST}"],
+        }
+      }
     }
   },
 
