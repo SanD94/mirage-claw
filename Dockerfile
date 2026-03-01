@@ -1,11 +1,11 @@
-FROM alpine:3.23
+FROM debian:bookworm-slim
 
 # Versions — bump these to update
 ARG NULLCLAW_VERSION=2026.2.26
 ARG FIZZY_CLI_VERSION=3.0.1
 
-# Install dependencies
-RUN apk add --no-cache curl ca-certificates bash
+# Install curl to grab the release
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Install NullClaw
 RUN curl -fsSL \
