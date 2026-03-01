@@ -4,7 +4,7 @@ set -e
 # Write NullClaw config if it doesn't exist yet
 mkdir -p /root/.nullclaw
 if [ ! -f /root/.nullclaw/config.json ]; then
-  cat > /root/.nullclaw/config.json << 'EOF'
+  cat > /root/.nullclaw/config.json << EOF
 {
   "models": {
     "providers": {
