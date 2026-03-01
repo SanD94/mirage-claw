@@ -37,7 +37,7 @@ if [ ! -f /root/.nullclaw/config.json ]; then
   },
 
   "gateway": {
-    "port": 3000,
+    "port": 8080,
     "host": "0.0.0.0",
     "require_pairing": false,
     "allow_public_bind": true
