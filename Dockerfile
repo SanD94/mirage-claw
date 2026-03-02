@@ -19,7 +19,7 @@ RUN curl -fsSL \
     -o /usr/local/bin/fizzy \
   && chmod +x /usr/local/bin/fizzy
 
-# runtime
+COPY config.json /etc/nullclaw/config.json
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
