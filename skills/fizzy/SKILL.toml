@@ -1,0 +1,12 @@
+[skill]
+name        = "fizzy"
+version     = "1.0.0"
+description = "Manages Fizzy kanban boards, cards, steps, comments, reactions, and pins via the fizzy CLI"
+author      = "sand94"
+
+prompts = [
+  "Show me my boards",
+  "List cards on my board",
+  "Create a new card",
+  "What's in my backlog?",
+]
