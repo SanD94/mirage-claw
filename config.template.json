@@ -6,7 +6,8 @@
       "openrouter": {
         "api_key": "RENDERED_AT_STARTUP",
         "env": {
-          "FIZZY_TOKEN": "RENDERED_AT_STARTUP"
+          "FIZZY_TOKEN": "RENDERED_AT_STARTUP",
+          "FIZZY_ACCOUNT": "RENDERED_AT_STARTUP"
         }
       }
     }
@@ -49,7 +50,8 @@
       "mount_workspace": true
     },
     "env": {
-      "FIZZY_TOKEN": "RENDERED_AT_STARTUP"
+      "FIZZY_TOKEN": "RENDERED_AT_STARTUP",
+      "FIZZY_ACCOUNT": "RENDERED_AT_STARTUP"
     }
   },
   "reliability": {
@@ -176,15 +178,44 @@
             "enabled": false,
             "half_life_days": 30
           }
-        },
-        "cache": {
-          "enabled": true,
-          "max_entries": 10000
         }
       },
       "cache": {
         "enabled": true,
         "max_entries": 10000
+      }
+    },
+    "qmd": {
+      "enabled": false,
+      "command": "qmd",
+      "search_mode": "search",
+      "include_default_memory": true,
+      "mcporter": {
+        "enabled": false,
+        "server_name": "qmd",
+        "start_daemon": true
+      },
+      "paths": [],
+      "sessions": {
+        "enabled": false,
+        "export_dir": "",
+        "retention_days": 30
+      },
+      "update": {
+        "interval_ms": 300000,
+        "debounce_ms": 15000,
+        "on_boot": true,
+        "wait_for_boot_sync": false,
+        "embed_interval_ms": 3600000,
+        "command_timeout_ms": 30000,
+        "update_timeout_ms": 120000,
+        "embed_timeout_ms": 120000
+      },
+      "limits": {
+        "max_results": 6,
+        "max_snippet_chars": 700,
+        "max_injected_chars": 4000,
+        "timeout_ms": 4000
       }
     },
     "lifecycle": {
@@ -258,7 +289,7 @@
   "gateway": {
     "port": 3000,
     "host": "127.0.0.1",
-    "require_pairing": "RENDERED_AT_STARTUP",
+    "require_pairing": true,
     "allow_public_bind": false,
     "pair_rate_limit_per_minute": 10,
     "webhook_rate_limit_per_minute": 60,
