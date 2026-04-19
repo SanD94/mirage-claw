@@ -153,19 +153,29 @@ Do not treat Railway as the place to discover first-time integration problems.
 
 ### Docs and env vars
 
-- [ ] Rewrite `README.md` to describe the refreshed runtime, not the old wrapper
-- [ ] Replace `FIZZY_ACCOUNT` references with `FIZZY_PROFILE`
+- [x] Rewrite `README.md` to describe the refreshed runtime, not the old wrapper
+- [x] Copy `.fizzy.yaml` to nullclaw workspace for token access
 - [ ] Document all required env vars clearly:
-  - [ ] `OPENROUTER_API_KEY`
-  - [ ] `TELEGRAM_BOT_TOKEN`
-  - [ ] `TELEGRAM_ALLOW_FROM`
-  - [ ] `FIZZY_TOKEN`
-  - [ ] `FIZZY_PROFILE`
-  - [ ] optional `FIZZY_API_URL`
-  - [ ] optional default board setting
-  - [ ] `FIZZY_NO_KEYRING=1` for headless deployment
+  - [x] `OPENROUTER_API_KEY`
+  - [x] `TELEGRAM_BOT_TOKEN`
+  - [x] `TELEGRAM_ALLOW_FROM`
+  - [x] `FIZZY_PROFILE` (optional, for config template)
 - [ ] Document Railway volume requirements
 - [ ] Document the single-replica requirement for the MVP
+
+### Fizzy Token Setup (jj)
+
+NullClaw reads `.fizzy.yaml` from its workspace directory to authenticate with Fizzy. The token must be present in the workspace, not as an environment variable.
+
+- [x] Create `.fizzy.yaml` in nullclaw workspace (`~/.nullclaw/workspace/.fizzy.yaml`)
+- [x] The file should contain:
+  ```yaml
+  token: <your-fizzy-token>
+  account: "<your-account-id>"
+  api_url: https://app.fizzy.do
+  board: ""
+  ```
+- [x] Ensure the workspace has read access to this file
 
 ### Runtime behavior on Railway
 

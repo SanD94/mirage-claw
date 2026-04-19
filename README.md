@@ -5,7 +5,20 @@ Personal AI assistant running NullClaw + fizzy-cli on Railway.
 - `config.template.json` is the repo-owned NullClaw config template
 - Entrypoint renders `~/.nullclaw/config.json` from that template on every boot
 - `OPENROUTER_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_ALLOW_FROM`, and optional `NULLCLAW_MODEL` are injected during render
-- Fizzy uses env vars directly such as `FIZZY_TOKEN`, `FIZZY_PROFILE`, and `FIZZY_API_URL`
+- Fizzy reads `.fizzy.yaml` from nullclaw's workspace for authentication
+
+## Fizzy Token Setup (jj)
+
+NullClaw reads `.fizzy.yaml` from its workspace directory to authenticate with Fizzy:
+
+1. Create `.fizzy.yaml` in the workspace (e.g., `~/.nullclaw/workspace/.fizzy.yaml`)
+2. Content:
+   ```yaml
+   token: <your-fizzy-token>
+   account: "<your-account-id>"
+   api_url: https://app.fizzy.do
+   board: ""
+   ```
 
 ## Railway env vars
 
@@ -14,12 +27,7 @@ Personal AI assistant running NullClaw + fizzy-cli on Railway.
 | `OPENROUTER_API_KEY` | ✅ | OpenRouter API key rendered into the runtime NullClaw config |
 | `TELEGRAM_BOT_TOKEN` | ✅ | Telegram bot token from BotFather |
 | `TELEGRAM_ALLOW_FROM` | ✅ | JSON array of allowed Telegram user IDs, e.g. `[123456789]` |
-| `FIZZY_TOKEN` | ✅ | Fizzy API token |
-| `FIZZY_PROFILE` | ✅ | Fizzy profile or account slug |
-| `FIZZY_API_URL` | ❌ | Fizzy API URL (default: `https://app.fizzy.do`) |
-| `FIZZY_BOARD` | ❌ | Default board ID |
-| `FIZZY_NO_KEYRING` | ✅ | Set to `1` in Railway or other headless environments |
-| `NULLCLAW_MODEL` | ❌ | Override model (default: `openrouter/google/gemma-4-31b-it:free`) |
+| `NULLCLAW_MODEL` | ❌ | Override model (default: `openrouter/nvidia/nemotron-3-super-120b-a12b:free`) |
 | `PORT` | ❌ | Gateway port (default: `3000`) |
 
 ## Updating versions
