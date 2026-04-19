@@ -7,6 +7,7 @@
         "api_key": "RENDERED_AT_STARTUP",
         "env": {
           "FIZZY_TOKEN": "RENDERED_AT_STARTUP",
+          "FIZZY_PROFILE": "RENDERED_AT_STARTUP",
           "FIZZY_ACCOUNT": "RENDERED_AT_STARTUP"
         }
       }
@@ -51,6 +52,7 @@
     },
     "env": {
       "FIZZY_TOKEN": "RENDERED_AT_STARTUP",
+      "FIZZY_PROFILE": "RENDERED_AT_STARTUP",
       "FIZZY_ACCOUNT": "RENDERED_AT_STARTUP"
     }
   },
