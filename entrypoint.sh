@@ -10,6 +10,8 @@ require_env() {
 }
 
 require_env OPENROUTER_API_KEY
+require_env FIZZY_TOKEN
+require_env FIZZY_ACCOUNT
 require_env TELEGRAM_BOT_TOKEN
 require_env TELEGRAM_ALLOW_FROM
 
@@ -20,6 +22,7 @@ jq -n --argjson allow_from "$TELEGRAM_ALLOW_FROM" '$allow_from' >/dev/null
 jq \
   --arg openrouter_api_key "$OPENROUTER_API_KEY" \
   --arg fizzy_token "$FIZZY_TOKEN" \
+  --arg fizzy_account "$FIZZY_ACCOUNT" \
   --arg telegram_bot_token "$TELEGRAM_BOT_TOKEN" \
   --argjson telegram_allow_from "$TELEGRAM_ALLOW_FROM" \
   --arg model "${NULLCLAW_MODEL:-openrouter/nvidia/nemotron-3-super-120b-a12b:free}" \
@@ -28,7 +31,9 @@ jq \
   '
   .models.providers.openrouter.api_key = $openrouter_api_key
   | .models.providers.openrouter.env.FIZZY_TOKEN = $fizzy_token
+  | .models.providers.openrouter.env.FIZZY_ACCOUNT = $fizzy_account
   | .runtime.env.FIZZY_TOKEN = $fizzy_token
+  | .runtime.env.FIZZY_ACCOUNT = $fizzy_account
   | .agents.defaults.model.primary = $model
   | .channels.telegram.accounts.default.bot_token = $telegram_bot_token
   | .channels.telegram.accounts.default.allow_from = $telegram_allow_from
