@@ -1,0 +1,65 @@
+{
+  "models": {
+    "providers": {
+      "openrouter": {
+        "api_key": "RENDERED_AT_STARTUP"
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openrouter/google/gemma-4-31b-it:free"
+      }
+    }
+  },
+  "autonomy": {
+    "level": "supervised",
+    "workspace_only": true,
+    "max_actions_per_hour": 20,
+    "require_approval_for_medium_risk": true,
+    "block_high_risk_commands": true,
+    "allowed_commands": [
+      "fizzy",
+      "ls",
+      "echo",
+      "which"
+    ],
+    "allowed_paths": [
+      "."
+    ]
+  },
+  "channels": {
+    "telegram": {
+      "accounts": {
+        "main": {
+          "account_id": "main",
+          "bot_token": "RENDERED_AT_STARTUP",
+          "allow_from": [],
+          "group_allow_from": [],
+          "group_policy": "allowlist",
+          "reply_in_private": true,
+          "proxy": null
+        }
+      }
+    }
+  },
+  "memory": {
+    "backend": "sqlite",
+    "auto_save": true
+  },
+  "gateway": {
+    "host": "0.0.0.0",
+    "port": 3000,
+    "require_pairing": false,
+    "allow_public_bind": true
+  },
+  "security": {
+    "sandbox": {
+      "backend": "auto"
+    },
+    "audit": {
+      "enabled": true
+    }
+  }
+}

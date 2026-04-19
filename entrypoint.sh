@@ -1,22 +1,40 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
+require_env() {
+  local name="$1"
+  if [ -z "${!name:-}" ]; then
+    echo "$name is required" >&2
+    exit 1
+  fi
+}
+
+require_env OPENROUTER_API_KEY
+require_env TELEGRAM_BOT_TOKEN
+require_env TELEGRAM_ALLOW_FROM
 
 mkdir -p /root/.nullclaw/workspace/skills
 
-# Patch telegram secrets and optional model override into the baked config.
-# API key is NOT in the config — NullClaw resolves OPENROUTER_API_KEY from env natively.
-jq_filter='.channels.telegram.accounts.default.bot_token = $token
-  | .channels.telegram.accounts.default.allow_from = $allow'
-jq_args=(--arg token "$TELEGRAM_BOT_TOKEN" --argjson allow "${TELEGRAM_ALLOW_FROM:-[]}")
+# NullClaw treats config values as literals, so provider keys and Telegram secrets
+# must be rendered into the runtime config before startup.
+jq -n --argjson allow_from "$TELEGRAM_ALLOW_FROM" '$allow_from' >/dev/null
 
-if [ -n "$NULLCLAW_MODEL" ]; then
-  jq_filter="$jq_filter | .agents.defaults.model.primary = \$model"
-  jq_args+=(--arg model "$NULLCLAW_MODEL")
-fi
+jq \
+  --arg openrouter_api_key "$OPENROUTER_API_KEY" \
+  --arg telegram_bot_token "$TELEGRAM_BOT_TOKEN" \
+  --argjson telegram_allow_from "$TELEGRAM_ALLOW_FROM" \
+  --arg model "${NULLCLAW_MODEL:-openrouter/google/gemma-4-31b-it:free}" \
+  --argjson port "${PORT:-3000}" \
+  '
+  .models.providers.openrouter.api_key = $openrouter_api_key
+  | .agents.defaults.model.primary = $model
+  | .channels.telegram.accounts.main.bot_token = $telegram_bot_token
+  | .channels.telegram.accounts.main.allow_from = $telegram_allow_from
+  | .gateway.port = $port
+  ' \
+  /etc/nullclaw/config.template.json > /root/.nullclaw/config.json
 
-jq "${jq_args[@]}" "$jq_filter" /etc/nullclaw/config.json > /root/.nullclaw/config.json
+# Sync skills from image into the workspace so NullClaw discovers them.
+cp -R /etc/nullclaw/skills/. /root/.nullclaw/workspace/skills/
 
-# Sync skills from image into the volume so NullClaw discovers them
-cp -r /etc/nullclaw/skills/* /root/.nullclaw/workspace/skills/
-
-exec nullclaw gateway --host 0.0.0.0 --port "${PORT:-3000}"
+exec nullclaw gateway

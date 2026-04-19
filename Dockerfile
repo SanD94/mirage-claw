@@ -1,10 +1,10 @@
 FROM debian:bookworm-slim
 
 # Versions — bump these to update
-ARG NULLCLAW_VERSION=2026.2.26
-ARG FIZZY_CLI_VERSION=3.0.1
+ARG NULLCLAW_VERSION=2026.4.17
+ARG FIZZY_CLI_VERSION=3.0.3
 
-# Install curl to grab the release
+# Install tools needed to fetch releases and render config at startup
 RUN apt-get update && apt-get install -y curl jq && rm -rf /var/lib/apt/lists/*
 
 # Install NullClaw
@@ -15,11 +15,11 @@ RUN curl -fsSL \
 
 # Install fizzy-cli
 RUN curl -fsSL \
-    "https://github.com/robzolkos/fizzy-cli/releases/download/v${FIZZY_CLI_VERSION}/fizzy-linux-amd64" \
+    "https://github.com/basecamp/fizzy-cli/releases/download/v${FIZZY_CLI_VERSION}/fizzy-linux-amd64" \
     -o /usr/local/bin/fizzy \
   && chmod +x /usr/local/bin/fizzy
 
-COPY config.json /etc/nullclaw/config.json
+COPY config.template.json /etc/nullclaw/config.template.json
 COPY skills/ /etc/nullclaw/skills/
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
