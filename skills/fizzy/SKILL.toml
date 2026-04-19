@@ -1,12 +1,24 @@
 [skill]
 name        = "fizzy"
 version     = "1.0.0"
-description = "Manages Fizzy kanban boards, cards, steps, comments, reactions, and pins via the fizzy CLI"
+description = "Interact with Fizzy boards, cards, and tasks via the fizzy CLI"
 author      = "sand94"
 
-prompts = [
-  "Show me my boards",
-  "List cards on my board",
-  "Create a new card",
-  "What's in my backlog?",
-]
+[invocations]
+list-boards = "fizzy board list"
+list-cards  = "fizzy card list"
+
+[[tool]]
+name = "fizzy_board_list"
+description = "List all Fizzy boards"
+run = "fizzy board list"
+
+[[tool]]
+name = "fizzy_card_list"
+description = "List cards on a Fizzy board"
+run = "fizzy card list --board {{board_id}}"
+
+[[tool]]
+name = "fizzy_card_show"
+description = "Show a Fizzy card by number"
+run = "fizzy card show {{card_number}}"
