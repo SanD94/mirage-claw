@@ -16,7 +16,7 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "openrouter/nvidia/nemotron-3-super-120b-a12b:free"
+        "primary": "openrouter/google/gemma-4-31b-it"
       }
     }
   },
