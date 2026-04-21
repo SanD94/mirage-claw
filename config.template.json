@@ -290,7 +290,7 @@
   },
   "gateway": {
     "port": 3000,
-    "host": "127.0.0.1",
+    "host": "0.0.0.0",
     "require_pairing": true,
     "allow_public_bind": false,
     "pair_rate_limit_per_minute": 10,

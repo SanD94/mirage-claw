@@ -60,7 +60,8 @@ jq \
   --arg telegram_bot_token "$TELEGRAM_BOT_TOKEN" \
   --argjson telegram_allow_from "$TELEGRAM_ALLOW_FROM" \
   --arg model "${NULLCLAW_MODEL:-openrouter/nvidia/nemotron-3-super-120b-a12b:free}" \
-  --argjson port "${NULLCLAW_GATEWAY_PORT:-${PORT:-3000}}" \
+  --arg port "${NULLCLAW_GATEWAY_PORT:-${PORT:-3000}}" \
+  --arg host "${NULLCLAW_GATEWAY_HOST:-0.0.0.0}" \
   --argjson require_pairing "${NULLCLAW_REQUIRE_PAIRING:-true}" \
   '
   .models.providers.openrouter.api_key = $openrouter_api_key
@@ -73,7 +74,8 @@ jq \
   | .agents.defaults.model.primary = $model
   | .channels.telegram.accounts.default.bot_token = $telegram_bot_token
   | .channels.telegram.accounts.default.allow_from = $telegram_allow_from
-  | .gateway.port = $port
+  | .gateway.port = ($port | tonumber)
+  | .gateway.host = $host
   | .gateway.require_pairing = $require_pairing
   ' \
   /etc/nullclaw/config.template.json > /root/.nullclaw/config.json
