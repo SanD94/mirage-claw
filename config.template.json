@@ -10,6 +10,10 @@
           "FIZZY_PROFILE": "RENDERED_AT_STARTUP",
           "FIZZY_ACCOUNT": "RENDERED_AT_STARTUP"
         }
+      },
+      "opencode": {
+        "api_key": "RENDERED_AT_STARTUP",
+        "baseURL": "https://opencode.ai/zen/v1/"
       }
     }
   },

@@ -1,4 +1,4 @@
-# NullClaw + Telegram + Fizzy on Railway Plan
+# NullClaw + Telegram + Fizzy on DigitalOcean Plan
 
 ## Premise
 
@@ -11,7 +11,7 @@ The first goal is "refresh the wrapper around the latest upstream runtime and cu
 
 ## Goal
 
-Deploy a Railway-hosted bot that:
+Deploy a DigitalOcean-hosted bot that:
 
 - uses current upstream NullClaw
 - uses Telegram as the only user interface
@@ -22,20 +22,20 @@ Deploy a Railway-hosted bot that:
 
 ## Local-First Testing Order
 
-Because you can validate everything locally before touching Railway, the working plan should follow this order:
+Because you can validate everything locally before touching DigitalOcean, the working plan should follow this order:
 
 1. prove that NullClaw can connect to your local agent setup at all
 2. prove that Telegram can reach the local bot cleanly
 3. prove that `/start` and `/end` behave the way you want for session control
 4. prove that the agent can control Fizzy through `fizzy-cli`
-5. only then package the result for Railway
+5. only then package the result for DigitalOcean
 
 This keeps the highest-risk unknowns isolated.
 
 - if NullClaw cannot talk to the agent locally, deployment work is premature
 - if Telegram is not wired correctly, `/start` and `/end` are impossible to judge
 - if session control is wrong, Fizzy testing will produce confusing results
-- if Fizzy control fails locally, Railway will only add more variables to debug
+- if Fizzy control fails locally, DigitalOcean will only add more variables to debug
 
 ## High-Level Architecture
 
@@ -44,7 +44,7 @@ This keeps the highest-risk unknowns isolated.
 3. NullClaw calls OpenRouter with `openrouter/google/gemma-4-31b-it:free`.
 4. When it needs to inspect or mutate Fizzy state, it uses `fizzy-cli`.
 5. NullClaw summarizes the result into a Telegram reply.
-6. Railway runs one long-lived container plus a persistent volume for NullClaw state.
+6. DigitalOcean runs one long-lived container plus a persistent volume for NullClaw state.
 
 ## Main Design Decision
 
@@ -75,7 +75,7 @@ This layer should come almost entirely from upstream projects:
 
 This repo should contain only the minimum custom pieces:
 
-- Railway deployment wiring
+- DigitalOcean deployment wiring
 - your repo-owned `config.template.json`
 - your rendered runtime `config.json`
 - your Fizzy-focused skill or workspace prompt
@@ -109,7 +109,7 @@ Work items:
 
 Exit criteria:
 
-- you can start NullClaw locally without Railway in the loop
+- you can start NullClaw locally without DigitalOcean in the loop
 - the local config shape matches current upstream assumptions
 - `fizzy-cli` is available in the same environment the bot will use
 
@@ -204,11 +204,11 @@ Suggested local smoke checks, in order:
 
 This is the point where you answer the final question: whether Fizzy can actually be controlled by the agent.
 
-## Phase 6: Railway Runtime Setup
+## Phase 6: DigitalOcean Runtime Setup
 
 Deploy one service only.
 
-Recommended Railway shape:
+Recommended DigitalOcean shape:
 
 1. One app service running NullClaw continuously.
 2. One persistent volume mounted for NullClaw state.
@@ -236,7 +236,7 @@ Recommended workflow:
 1. Run `nullclaw onboard --interactive` locally with the latest upstream binary.
 2. Use the generated config as the baseline for this repo's `config.template.json`.
 3. Remove live secrets from the committed template.
-4. Render the final runtime `config.json` during container startup with Railway env vars.
+4. Render the final runtime `config.json` during container startup with DigitalOcean env vars.
 
 The plan should assume these core areas are configured:
 
@@ -253,7 +253,7 @@ Important rules from current upstream behavior:
 - render the config file before startup if secrets must come from env vars
 - keep Telegram access locked to your Telegram user ID
 
-Minimum secrets/config inputs on Railway:
+Minimum secrets/config inputs on DigitalOcean:
 
 - `OPENROUTER_API_KEY`
 - `TELEGRAM_BOT_TOKEN`
@@ -277,7 +277,7 @@ That is still the right choice even with a fresh NullClaw baseline because:
 Planned work:
 
 1. Install the latest `fizzy-cli` release in the runtime image.
-2. Verify `fizzy board list` works with Railway env vars.
+2. Verify `fizzy board list` works with DigitalOcean env vars.
 3. Verify `fizzy card list`, `fizzy card create`, `fizzy card move`, `fizzy card close`, and `fizzy comment create` all work in the deployed environment.
 4. Make the agent strongly prefer `fizzy-cli` for all Fizzy operations.
 
@@ -383,7 +383,7 @@ Validate the system in this order.
 6. Confirm `fizzy-cli` auth works locally.
 7. Confirm board read actions work locally.
 8. Confirm card write actions work locally.
-9. Repeat the same smoke checks after packaging for Railway.
+9. Repeat the same smoke checks after packaging for DigitalOcean.
 
 Suggested smoke tests:
 
@@ -407,7 +407,7 @@ The main risks are:
 2. Free OpenRouter models may be rate-limited or temporarily unstable.
 3. Upstream NullClaw slash-command behavior may have shifted since older examples.
 4. Old `fizzy-cli` packaging or env var names in this repo may no longer match current upstream.
-5. Railway-specific debugging may hide problems that would have been obvious in local testing.
+5. DigitalOcean-specific debugging may hide problems that would have been obvious in local testing.
 
 ## Recommended Order Of Work
 
@@ -419,8 +419,8 @@ Use this sequence.
 4. Verify `/start` and `/end` locally.
 5. Verify `fizzy-cli` commands locally.
 6. Add the Fizzy-focused skill/prompt.
-7. Build a fresh current-config deployment for Railway.
-8. Repeat the end-to-end Telegram smoke tests on Railway.
+7. Build a fresh current-config deployment for DigitalOcean.
+8. Repeat the end-to-end Telegram smoke tests on DigitalOcean.
 
 ## Nice-To-Have Features Later
 
@@ -438,7 +438,7 @@ After the MVP works, these would be good additions.
 
 The MVP is done when:
 
-1. the deployment runs on Railway using a fresh upstream-based NullClaw runtime
+1. the deployment runs on DigitalOcean using a fresh upstream-based NullClaw runtime
 2. the local NullClaw-to-agent path has already been proven before deployment
 3. Telegram messages reach the bot reliably
 4. the bot uses `openrouter/google/gemma-4-31b-it:free`
