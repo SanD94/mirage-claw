@@ -38,6 +38,7 @@ EOF
 }
 
 require_env OPENROUTER_API_KEY
+require_env OPENCODE_API_KEY
 require_env FIZZY_TOKEN
 require_env TELEGRAM_BOT_TOKEN
 require_env TELEGRAM_ALLOW_FROM
@@ -55,6 +56,7 @@ jq -n --argjson allow_from "$TELEGRAM_ALLOW_FROM" '$allow_from' >/dev/null
 
 jq \
   --arg openrouter_api_key "$OPENROUTER_API_KEY" \
+  --arg opencode_api_key "$OPENCODE_API_KEY" \
   --arg fizzy_token "$FIZZY_TOKEN" \
   --arg fizzy_profile "$fizzy_profile" \
   --arg telegram_bot_token "$TELEGRAM_BOT_TOKEN" \
@@ -65,6 +67,7 @@ jq \
   --argjson require_pairing "${NULLCLAW_REQUIRE_PAIRING:-true}" \
   '
   .models.providers.openrouter.api_key = $openrouter_api_key
+  | .models.providers.opencode.api_key = $opencode_api_key
   | .models.providers.openrouter.env.FIZZY_TOKEN = $fizzy_token
   | .models.providers.openrouter.env.FIZZY_PROFILE = $fizzy_profile
   | .models.providers.openrouter.env.FIZZY_ACCOUNT = $fizzy_profile
