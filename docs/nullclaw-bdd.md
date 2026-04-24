@@ -4,7 +4,7 @@
 
 These scenarios define the acceptance behavior for the refreshed NullClaw, Telegram, and Fizzy setup.
 
-They are written in the order the system should be validated: locally first, then on Railway.
+They are written in the order the system should be validated: locally first, then on DigitalOcean.
 
 ## Feature: Local NullClaw runtime boots
 
@@ -170,31 +170,31 @@ Then the reply is concise and readable
 And the reply avoids raw CLI output by default
 And the reply avoids large JSON payloads by default
 
-## Feature: Railway packaging preserves validated behavior
+## Feature: DigitalOcean packaging preserves validated behavior
 
-### Scenario: Service starts on Railway after local validation passes
+### Scenario: Service starts on DigitalOcean after local validation passes
 
 Given the local validation scenarios already pass
-And Railway has the required environment variables configured
+And DigitalOcean has the required environment variables configured
 And a persistent volume is mounted for NullClaw state
-When the service is deployed to Railway
+When the service is deployed to DigitalOcean
 Then the container starts successfully
 And the health check endpoint reports success
 And NullClaw stays running as a long-lived process
 
 ### Scenario: Service restart preserves runtime state
 
-Given the Railway service has already been configured and used
-When Railway restarts the service
+Given the DigitalOcean service has already been configured and used
+When DigitalOcean restarts the service
 Then the bot starts successfully again
 And required local runtime state is still available from the persistent volume
 
-### Scenario: Core Telegram and Fizzy flows still work on Railway
+### Scenario: Core Telegram and Fizzy flows still work on DigitalOcean
 
 Given the bot has already been proven locally
-When the allowed user repeats the local smoke tests on Railway
-Then `/start` works on Railway
-And `/end` resets the session on Railway
+When the allowed user repeats the local smoke tests on DigitalOcean
+Then `/start` works on DigitalOcean
+And `/end` resets the session on DigitalOcean
 And board and card actions still work through `fizzy-cli`
 
 ## Feature: Documentation-driven re-deploy
@@ -202,7 +202,7 @@ And board and card actions still work through `fizzy-cli`
 ### Scenario: Repo docs are sufficient to recreate deployment
 
 Given an engineer has only this repository
-When they follow the plan, checklist, and local validation order
+When they follow the implementation guide and local validation order
 Then they can reproduce the local setup first
-And they can reproduce the Railway deployment setup
+And they can reproduce the DigitalOcean deployment setup
 And they can validate it using these BDD scenarios
