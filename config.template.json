@@ -37,7 +37,7 @@
   },
   "autonomy": {
     "level": "full",
-    "workspace_only": true,
+    "workspace_only": false,
     "max_actions_per_hour": 20,
     "require_approval_for_medium_risk": false,
     "block_high_risk_commands": false,
