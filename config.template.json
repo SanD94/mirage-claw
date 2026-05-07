@@ -296,7 +296,7 @@
     "port": 3000,
     "host": "0.0.0.0",
     "require_pairing": true,
-    "allow_public_bind": false,
+    "allow_public_bind": true,
     "pair_rate_limit_per_minute": 10,
     "webhook_rate_limit_per_minute": 60,
     "idempotency_ttl_secs": 300,
