@@ -40,8 +40,7 @@
     "workspace_only": true,
     "max_actions_per_hour": 20,
     "require_approval_for_medium_risk": false,
-    "block_high_risk_commands": true,
-    "allowed_commands": ["fizzy"],
+    "block_high_risk_commands": false,
     "allow_raw_url_chars": false,
     "allowed_paths": []
   },
