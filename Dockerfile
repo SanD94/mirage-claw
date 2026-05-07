@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 
 # Versions — bump these to update
-ARG NULLCLAW_VERSION=2026.4.17
+ARG NULLCLAW_VERSION=2026.5.4
 ARG FIZZY_CLI_VERSION=3.0.3
 
 # Install tools needed to fetch releases and render config at startup
