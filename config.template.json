@@ -43,7 +43,7 @@
     "block_high_risk_commands": false,
     "allow_raw_url_chars": false,
     "allowed_commands": ["*"],
-    "allowed_paths": ["*"],
+    "allowed_paths": ["*"]
   },
   "runtime": {
     "kind": "native",
